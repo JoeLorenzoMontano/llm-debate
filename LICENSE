@@ -1,21 +1,43 @@
-MIT License
+NON-COMMERCIAL LICENSE
 
 Copyright (c) 2026 LLM Debate Tool Contributors
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
-of this software and associated documentation files (the "Software"), to deal
-in the Software without restriction, including without limitation the rights
-to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-copies of the Software, and to permit persons to whom the Software is
-furnished to do so, subject to the following conditions:
+of this software and associated documentation files (the "Software"), to use,
+copy, modify, merge, and distribute the Software for PERSONAL, NON-COMMERCIAL
+purposes only, subject to the following conditions:
 
-The above copyright notice and this permission notice shall be included in all
-copies or substantial portions of the Software.
+1. PERSONAL USE ONLY: The Software may only be used for personal, educational,
+   or research purposes. Commercial use is strictly prohibited.
 
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-SOFTWARE.
+2. NO COMMERCIAL USE: You may NOT use this Software or any modified version
+   thereof for commercial purposes, including but not limited to:
+   - Selling the Software or modified versions
+   - Using the Software in any commercial product or service
+   - Using the Software to provide paid services
+   - Incorporating the Software into commercial products
+
+3. ATTRIBUTION: The above copyright notice and this permission notice shall be
+   included in all copies or substantial portions of the Software.
+
+4. MODIFICATIONS: Modified versions of the Software are subject to the same
+   non-commercial restrictions as the original Software. Any distribution of
+   modified versions must clearly indicate that changes were made and must
+   retain this license.
+
+5. NO WARRANTY: THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+   EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+   MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
+   IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
+   DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR
+   OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE
+   USE OR OTHER DEALINGS IN THE SOFTWARE.
+
+6. COMMERCIAL LICENSING: For commercial use licenses, please contact the
+   copyright holders.
+
+DEFINITIONS:
+- "Commercial use" means any use of the Software that is primarily intended
+  for or directed toward commercial advantage or monetary compensation.
+- "Personal use" means use by an individual for their own personal,
+  non-commercial purposes, including education and research.

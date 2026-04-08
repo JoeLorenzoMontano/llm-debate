@@ -3,7 +3,7 @@
 > Orchestrate debates and discussions between Claude Code and Codex CLIs with configurable interaction modes, convergence detection, and real-time action-taking.
 
 [![Python 3.8+](https://img.shields.io/badge/python-3.8+-blue.svg)](https://www.python.org/downloads/)
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![License: Non-Commercial](https://img.shields.io/badge/License-Non--Commercial-red.svg)](LICENSE)
 
 ## Overview
 
@@ -366,7 +366,9 @@ llm-debate --action-mode "refactor this code"
 
 ## License
 
-MIT License - see [LICENSE](LICENSE) file for details.
+**Non-Commercial License** - This software is licensed for personal, educational, and research use only. Commercial use is prohibited.
+
+See [LICENSE](LICENSE) file for full terms. For commercial licensing inquiries, please contact the copyright holders.
 
 ## Credits
 
