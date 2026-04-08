@@ -1,0 +1,58 @@
+"""Collaborative exploration mode."""
+
+from typing import List, TYPE_CHECKING
+from .base import DebateMode
+
+if TYPE_CHECKING:
+    from ..orchestrator import Turn
+
+
+class CollaborativeMode(DebateMode):
+    """Collaborative mode where CLIs build on each other's ideas."""
+
+    def get_mode_instructions(self, cli_name: str) -> str:
+        """Get collaborative instructions (same for both CLIs)."""
+        return """You are participating in a collaborative exploration. Your goal is to work together with your partner to:
+- Explore the topic from multiple angles
+- Build on previous contributions
+- Find common ground and synthesize ideas
+- Expand understanding through constructive dialogue
+
+Be thoughtful, open-minded, and add complementary insights."""
+
+    def get_initial_prompt(self, topic: str, cli_name: str) -> str:
+        """Generate initial prompt for collaborative exploration."""
+        instructions = self.get_mode_instructions(cli_name)
+
+        return f"""{instructions}
+
+**Topic for Exploration:** {topic}
+
+Begin the collaborative exploration. Share your initial thoughts, perspectives, and questions about this topic.
+Set a constructive tone for the discussion."""
+
+    def get_response_prompt(self, topic: str, cli_name: str, conversation_history: List["Turn"]) -> str:
+        """Generate response prompt with collaborative framing."""
+        instructions = self.get_mode_instructions(cli_name)
+        history = self.format_history(conversation_history)
+
+        # Get last contribution
+        last_turn = conversation_history[-1] if conversation_history else None
+        partner_name = "your partner" if not last_turn else last_turn.cli_name.title()
+
+        return f"""{instructions}
+
+**Topic for Exploration:** {topic}
+
+**Conversation So Far:**
+{history}
+
+**Your Turn:**
+Build on {partner_name}'s contribution. You might:
+- Expand on their ideas with additional perspectives
+- Make connections to related concepts
+- Ask clarifying questions that deepen understanding
+- Synthesize what has been discussed so far
+- Introduce complementary viewpoints
+
+Keep the collaborative spirit and add meaningful value to the exploration."""

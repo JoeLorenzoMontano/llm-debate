@@ -1,0 +1,60 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+MANIFEST
+
+# Virtual environments
+venv/
+env/
+ENV/
+python-venv/
+
+# IDEs
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Testing
+.pytest_cache/
+.coverage
+htmlcov/
+.tox/
+
+# Logs
+*.log
+debate.log
+*.log.*
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Debate output (transcript files, not source code)
+*.md.debate
+debate-*.md
+/output/
+*_debate_output/
+
+# Git safety branches (optional)
+# Uncomment if you don't want to track debate branches
+# debate-*/

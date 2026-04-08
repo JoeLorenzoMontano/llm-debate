@@ -1,0 +1,5 @@
+# CLI Debate Tool Dependencies
+# Using Python stdlib for core functionality
+
+# Optional: For colored console output
+colorama>=0.4.6
