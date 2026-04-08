@@ -1,4 +1,4 @@
-# CLI Debate Tool
+# LLM Debate Tool
 
 > Orchestrate debates and discussions between Claude Code and Codex CLIs with configurable interaction modes, convergence detection, and real-time action-taking.
 
@@ -7,7 +7,7 @@
 
 ## Overview
 
-The CLI Debate Tool enables two AI CLIs to engage in:
+The LLM Debate Tool enables two AI CLIs to engage in:
 - **Adversarial debates** - Opposing viewpoints, rigorous argumentation
 - **Collaborative explorations** - Building on each other's ideas
 - **Devil's advocate discussions** - One proposes, one critiques
@@ -52,15 +52,15 @@ The CLI Debate Tool enables two AI CLIs to engage in:
 ### Install from Source
 
 ```bash
-git clone https://github.com/yourusername/cli-debate.git
-cd cli-debate
+git clone https://github.com/yourusername/llm-debate.git
+cd llm-debate
 pip install -e .
 ```
 
 ### Verify Installation
 
 ```bash
-cli-debate --help
+llm-debate --help
 ```
 
 ## Quick Start
@@ -69,25 +69,25 @@ cli-debate --help
 
 ```bash
 # Adversarial debate
-cli-debate "Is Python better than JavaScript for web development?"
+llm-debate "Is Python better than JavaScript for web development?"
 
 # Collaborative exploration (5 rounds)
-cli-debate -m collaborative -r 5 "Design patterns for microservices"
+llm-debate -m collaborative -r 5 "Design patterns for microservices"
 
 # Devil's advocate
-cli-debate -m devils_advocate "Implement caching strategy for our API"
+llm-debate -m devils_advocate "Implement caching strategy for our API"
 ```
 
 ### Action Mode (Code Changes)
 
 ```bash
 # Collaborative refactoring with real code changes
-cli-debate --action-mode \
+llm-debate --action-mode \
     -m collaborative -r 5 \
     "Refactor the error handling in cli_executor.py"
 
 # Adversarial code review with changes
-cli-debate --action-mode \
+llm-debate --action-mode \
     --git-branch review-session \
     -m adversarial \
     "Review and improve the convergence detection algorithm"
@@ -98,7 +98,7 @@ cli-debate --action-mode \
 ### Command-Line Options
 
 ```bash
-cli-debate [OPTIONS] "topic"
+llm-debate [OPTIONS] "topic"
 ```
 
 **Required:**
@@ -134,7 +134,7 @@ cli-debate [OPTIONS] "topic"
 #### Example 1: Quick Adversarial Debate
 
 ```bash
-cli-debate -m adversarial -r 5 \
+llm-debate -m adversarial -r 5 \
     "Microservices are better than monoliths"
 ```
 
@@ -163,7 +163,7 @@ Reason: Agreement detected in recent responses
 #### Example 2: Collaborative Exploration with Export
 
 ```bash
-cli-debate -m collaborative -o stream markdown \
+llm-debate -m collaborative -o stream markdown \
     --markdown-path architecture-discussion.md \
     -r 8 \
     "How should we structure error handling in microservices?"
@@ -176,7 +176,7 @@ This will:
 #### Example 3: Action Mode - Real Code Refactoring
 
 ```bash
-cli-debate --action-mode \
+llm-debate --action-mode \
     --git-branch refactor-experiment \
     -m collaborative -r 5 \
     "Refactor the CLI executor module to improve testability"
@@ -197,12 +197,12 @@ cli-debate --action-mode \
 Analyzing cli_executor.py... I'll extract interfaces for better testability.
 
 ACTIONS TAKEN:
-  ✏️  Modified: cli_debate/cli_executor.py
+  ✏️  Modified: llm_debate/cli_executor.py
     - Extracted ExecutorInterface
     - Added dependency injection
     + 45 lines, - 12 lines
 
-  📝 Created: cli_debate/executor_interface.py
+  📝 Created: llm_debate/executor_interface.py
     - Defined abstract interface
     + 28 lines
 
@@ -221,13 +221,13 @@ You can invoke debates directly from Claude Code! Just ask naturally:
 "Run a devil's advocate session on the new API design"
 ```
 
-Claude Code will recognize the `cli-debate` command and execute it for you.
+Claude Code will recognize the `llm-debate` command and execute it for you.
 
 ## Architecture
 
 ```
-cli-debate/
-├── cli_debate/
+llm-debate/
+├── llm_debate/
 │   ├── main.py                 # CLI entry point
 │   ├── config.py               # Configuration classes
 │   ├── orchestrator.py         # Main debate loop
@@ -289,7 +289,7 @@ pip install -e ".[dev]"
 pytest
 
 # Run with coverage
-pytest --cov=cli_debate
+pytest --cov=llm_debate
 ```
 
 ### Contributing
@@ -337,21 +337,21 @@ which claude
 which codex
 
 # Specify custom paths
-cli-debate --claude-bin /path/to/claude --codex-bin /path/to/codex "topic"
+llm-debate --claude-bin /path/to/claude --codex-bin /path/to/codex "topic"
 ```
 
 ### Timeout Issues
 
 ```bash
 # Increase timeout (in seconds)
-cli-debate -t 300 "topic"
+llm-debate -t 300 "topic"
 ```
 
 ### Action Mode: Permission Denied
 
 ```bash
 # Use bypass permissions mode (careful!)
-cli-debate --action-mode --permission-mode bypassPermissions "topic"
+llm-debate --action-mode --permission-mode bypassPermissions "topic"
 ```
 
 ### Git Not a Repository
@@ -361,7 +361,7 @@ Action mode requires a git repository:
 ```bash
 cd your-project
 git init  # If not already a git repo
-cli-debate --action-mode "refactor this code"
+llm-debate --action-mode "refactor this code"
 ```
 
 ## License
@@ -379,10 +379,10 @@ Built with:
 If you use this tool in your research or project, please cite:
 
 ```bibtex
-@software{cli_debate_tool,
-  title = {CLI Debate Tool: Multi-Agent AI Debates with Action-Taking},
+@software{llm_debate_tool,
+  title = {LLM Debate Tool: Multi-Agent AI Debates with Action-Taking},
   year = {2026},
-  url = {https://github.com/yourusername/cli-debate}
+  url = {https://github.com/yourusername/llm-debate}
 }
 ```
 

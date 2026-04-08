@@ -1,4 +1,4 @@
-# Contributing to CLI Debate Tool
+# Contributing to LLM Debate Tool
 
 Thank you for your interest in contributing! This document provides guidelines for contributing to the project.
 
@@ -7,8 +7,8 @@ Thank you for your interest in contributing! This document provides guidelines f
 1. **Fork the repository** on GitHub
 2. **Clone your fork** locally:
    ```bash
-   git clone https://github.com/yourusername/cli-debate.git
-   cd cli-debate
+   git clone https://github.com/yourusername/llm-debate.git
+   cd llm-debate
    ```
 3. **Install in development mode**:
    ```bash
@@ -121,7 +121,7 @@ class MyClass:
 pytest
 
 # Run with coverage
-pytest --cov=cli_debate
+pytest --cov=llm_debate
 
 # Run specific test file
 pytest tests/test_orchestrator.py
@@ -134,7 +134,7 @@ pytest -v
 
 ### New Debate Mode
 
-1. Create new file in `cli_debate/modes/`
+1. Create new file in `llm_debate/modes/`
 2. Inherit from `DebateMode` base class
 3. Implement required methods
 4. Add to mode registry in `orchestrator.py`
@@ -143,7 +143,7 @@ pytest -v
 
 ### New Output Handler
 
-1. Create new file in `cli_debate/output/`
+1. Create new file in `llm_debate/output/`
 2. Inherit from `OutputHandler` base class
 3. Implement event methods
 4. Add to handler creation in `main.py`
@@ -201,7 +201,7 @@ A clear description of the bug.
 
 **To Reproduce**
 Steps to reproduce:
-1. Run `cli-debate ...`
+1. Run `llm-debate ...`
 2. See error
 
 **Expected Behavior**

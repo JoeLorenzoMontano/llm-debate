@@ -16,7 +16,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [0.1.0] - 2026-04-08
 
 ### Added
-- Initial release of CLI Debate Tool
+- Initial release of LLM Debate Tool
 - Three debate modes: adversarial, collaborative, devils_advocate
 - Automatic convergence detection
   - Semantic similarity analysis
@@ -76,5 +76,5 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ---
 
-[Unreleased]: https://github.com/yourusername/cli-debate/compare/v0.1.0...HEAD
-[0.1.0]: https://github.com/yourusername/cli-debate/releases/tag/v0.1.0
+[Unreleased]: https://github.com/yourusername/llm-debate/compare/v0.1.0...HEAD
+[0.1.0]: https://github.com/yourusername/llm-debate/releases/tag/v0.1.0
