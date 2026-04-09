@@ -1,0 +1,21 @@
+version: '3.8'
+
+services:
+  llm-debate-web:
+    build: .
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./llm_debate:/app/llm_debate
+      - ./web:/app/web
+      - ~/.claude:/root/.claude  # Mount Claude config
+      - ~/.config/codex:/root/.config/codex  # Mount Codex config (adjust path if needed)
+    environment:
+      - PYTHONUNBUFFERED=1
+      - LOG_LEVEL=INFO
+    restart: unless-stopped
+    command: uvicorn web.backend.main:app --host 0.0.0.0 --port 8000 --reload
+
+networks:
+  default:
+    name: llm-debate-network

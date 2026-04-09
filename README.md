@@ -209,6 +209,101 @@ ACTIONS TAKEN:
   ✅ Committed: a3f2c1b "Round 1 - claude changes"
 ```
 
+## Web UI 🌐
+
+### NEW: Real-Time Web Interface
+
+Experience debates with a beautiful, real-time web interface!
+
+**Features:**
+- 🎨 Modern, responsive UI
+- ⚡ Real-time WebSocket streaming
+- 📊 Live progress tracking
+- 💾 Export transcripts to markdown
+- 🎛️ Easy configuration
+- 📱 Mobile-friendly
+
+### Quick Start
+
+**Option 1: Using the startup script**
+```bash
+./run-web.sh
+```
+
+**Option 2: Manual start**
+```bash
+# Install web dependencies
+pip install -r web/requirements.txt
+
+# Start the server
+uvicorn web.backend.main:app --host 0.0.0.0 --port 8000 --reload
+```
+
+**Option 3: Docker**
+```bash
+docker-compose up
+```
+
+Then open your browser to: **http://localhost:8000**
+
+### Using the Web UI
+
+1. **Configure Your Debate**
+   - Enter your debate topic
+   - Select mode (Adversarial, Collaborative, or Devil's Advocate)
+   - Adjust max rounds and timeout
+   - Enable/disable convergence detection
+   - Toggle action mode for real code changes
+
+2. **Start the Debate**
+   - Click "Start Debate"
+   - Watch the real-time conversation unfold
+   - See color-coded responses (Claude in blue, Codex in green)
+
+3. **Export Results**
+   - Click "Export Transcript" to download markdown
+   - Automatically includes all turns with timestamps
+
+### Screenshots
+
+**Main Interface:**
+```
+┌─────────────────────────────────────────────────────────┐
+│  🎛️ Configuration Panel    │  💬 Live Debate View      │
+│  ┌──────────────────────┐  │  ┌───────────────────────┐│
+│  │ Debate Topic         │  │  │ Round 1 - CLAUDE      ││
+│  │ Mode: Collaborative  │  │  │ [Blue] Response...    ││
+│  │ Max Rounds: 5        │  │  │                       ││
+│  │ [Start Debate]       │  │  │ Round 2 - CODEX       ││
+│  └──────────────────────┘  │  │ [Green] Response...   ││
+└─────────────────────────────────────────────────────────┘
+```
+
+### API Endpoints
+
+The web UI also exposes a REST API:
+
+**Start a debate:**
+```bash
+curl -X POST http://localhost:8000/api/debates/start \
+  -H "Content-Type: application/json" \
+  -d '{
+    "topic": "Your debate topic",
+    "mode": "collaborative",
+    "max_rounds": 5
+  }'
+```
+
+**Get debate status:**
+```bash
+curl http://localhost:8000/api/debates/{debate_id}/status
+```
+
+**Health check:**
+```bash
+curl http://localhost:8000/health
+```
+
 ## Using from Claude Code
 
 You can invoke debates directly from Claude Code! Just ask naturally:

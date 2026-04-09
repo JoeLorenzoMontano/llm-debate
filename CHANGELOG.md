@@ -8,10 +8,18 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 
 ### Added
+- **Web UI with real-time streaming** 🎉
+  - FastAPI backend with WebSocket support
+  - Beautiful, responsive frontend with Tailwind CSS
+  - Live debate visualization with color-coded responses
+  - Real-time progress tracking
+  - Markdown export functionality
+  - Docker support for easy deployment
 - Session-based CLI executor for action mode
 - Action tracking module for monitoring file changes
 - Git safety features (branching, auto-commit, rollback)
 - Action mode configuration settings
+- REST API endpoints for programmatic access
 
 ## [0.1.0] - 2026-04-08
 
