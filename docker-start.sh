@@ -10,8 +10,8 @@ echo ""
 IP=$(hostname -I | awk '{print $1}')
 
 echo "📍 Server Information:"
-echo "   Local:   http://localhost:8000"
-echo "   Network: http://${IP}:8000"
+echo "   Local:   http://localhost:7000"
+echo "   Network: http://${IP}:7000"
 echo ""
 
 # Check if Docker is running
@@ -34,7 +34,7 @@ echo ""
 echo "✅ Container started!"
 echo ""
 echo "📱 Access from other devices on your network:"
-echo "   http://${IP}:8000"
+echo "   http://${IP}:7000"
 echo ""
 echo "📊 View logs:"
 echo "   docker-compose logs -f llm-debate-web"

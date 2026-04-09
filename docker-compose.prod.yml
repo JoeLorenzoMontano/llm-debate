@@ -4,7 +4,7 @@ services:
   llm-debate-web:
     build: .
     ports:
-      - "0.0.0.0:8000:8000"  # Explicitly bind to all interfaces
+      - "0.0.0.0:7000:8000"  # External port 7000, internal 8000
     volumes:
       # Mount CLI configurations (read-only for security)
       - ~/.claude:/root/.claude:ro
