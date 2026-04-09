@@ -9,9 +9,13 @@ services:
       # Mount CLI configurations (read-only for security)
       - ~/.claude:/root/.claude:ro
       - ~/.config/codex:/root/.config/codex:ro
+      # Mount Claude CLI binary (Codex is installed in container)
+      - ~/.local/bin/claude:/usr/local/bin/claude:ro
     environment:
       - PYTHONUNBUFFERED=1
       - LOG_LEVEL=INFO
+      - CLAUDE_BIN=/usr/local/bin/claude
+      - CODEX_BIN=/usr/bin/codex  # Installed via npm in container
     restart: unless-stopped
     # Production command (no reload)
     command: uvicorn web.backend.main:app --host 0.0.0.0 --port 8000 --workers 2

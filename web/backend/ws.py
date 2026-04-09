@@ -3,6 +3,7 @@
 import asyncio
 import logging
 import json
+import os
 from typing import Dict
 from pathlib import Path
 from fastapi import WebSocket
@@ -141,6 +142,10 @@ class WebSocketDebateHandler:
 
         try:
             # Create debate configuration
+            # Use environment variables for CLI paths if set (for Docker)
+            claude_bin = os.getenv("CLAUDE_BIN", "/home/jolomoadmin/.local/bin/claude")
+            codex_bin = os.getenv("CODEX_BIN", "/home/jolomoadmin/.npm-global/bin/codex")
+
             config = DebateConfig(
                 topic=config_data.get("topic", ""),
                 mode=config_data.get("mode", "collaborative"),
@@ -150,6 +155,9 @@ class WebSocketDebateHandler:
                 enable_convergence=config_data.get("enable_convergence", True),
                 enable_actions=config_data.get("enable_actions", False),
                 output_handlers=["stream"],  # Not used here, we have custom handler
+                # CLI paths (use env vars for Docker, defaults for local)
+                claude_bin=claude_bin,
+                codex_bin=codex_bin,
                 # PR context settings
                 pr_number=config_data.get("pr_number"),
                 pr_repo=config_data.get("pr_repo"),
