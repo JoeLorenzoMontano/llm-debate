@@ -32,10 +32,17 @@ The LLM Debate Tool enables two AI CLIs to engage in:
 - 🔥 Auto-commit per turn with rollback capability
 - 🔥 Session-based execution with full tool access
 
+### Pull Request Integration
+- 🔍 Fetch PR metadata, diffs, and comments from GitHub
+- 📋 Automatic PR context injection into debates
+- 🌿 Optional PR branch checkout for deeper analysis
+- 💬 Works with both CLI and Web UI
+
 ## Use Cases
 
 - Multi-perspective analysis of technical decisions
 - Code review and refactoring with AI pair programming
+- **Pull request review with multi-perspective analysis**
 - Brainstorming and ideation
 - Exploring complex topics from different angles
 - Automated code improvements with safety guarantees
@@ -125,6 +132,12 @@ llm-debate [OPTIONS] "topic"
 - `--permission-mode` - Claude permission mode (default: acceptEdits)
 - `--no-auto-commit` - Disable auto-commit per turn
 
+**Pull Request Context:**
+- `--pr` - Pull request number or URL to review and debate
+- `--pr-repo` - Repository in format owner/repo (optional if in repo directory)
+- `--pr-checkout` - Checkout PR branch before starting debate
+- `--gh-bin` - Path to GitHub CLI binary (default: gh)
+
 **Logging:**
 - `--log-level` - Logging level: DEBUG, INFO, WARNING, ERROR (default: INFO)
 - `--log-file` - Path to log file (default: debate.log)
@@ -209,6 +222,38 @@ ACTIONS TAKEN:
   ✅ Committed: a3f2c1b "Round 1 - claude changes"
 ```
 
+#### Example 4: Pull Request Review
+
+```bash
+# Review a GitHub PR with both CLIs analyzing the changes
+llm-debate --pr 123 \
+    --pr-repo owner/repo \
+    -m adversarial -r 5 \
+    "Review this pull request for potential issues and improvements"
+```
+
+**What happens:**
+1. Fetches PR metadata (title, description, author)
+2. Retrieves full diff of all changes
+3. Loads review comments (if any)
+4. Injects PR context into debate prompts
+5. CLIs debate the quality and potential issues
+
+**Optional: Checkout PR branch for deeper analysis**
+```bash
+llm-debate --pr https://github.com/owner/repo/pull/123 \
+    --pr-checkout \
+    --action-mode \
+    -m devils_advocate \
+    "Critically evaluate this PR and suggest improvements"
+```
+
+This will:
+- Checkout the PR branch locally
+- Enable action mode for direct code changes
+- Claude proposes improvements
+- Codex critically evaluates them
+
 ## Web UI 🌐
 
 ### NEW: Real-Time Web Interface
@@ -254,6 +299,7 @@ Then open your browser to: **http://localhost:8000**
    - Adjust max rounds and timeout
    - Enable/disable convergence detection
    - Toggle action mode for real code changes
+   - **(Optional)** Add PR URL for pull request review context
 
 2. **Start the Debate**
    - Click "Start Debate"

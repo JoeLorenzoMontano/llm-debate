@@ -1,10 +1,11 @@
 """Collaborative exploration mode."""
 
-from typing import List, TYPE_CHECKING
+from typing import List, Optional, TYPE_CHECKING
 from .base import DebateMode
 
 if TYPE_CHECKING:
     from ..orchestrator import Turn
+    from ..pr_context import PRContext
 
 
 class CollaborativeMode(DebateMode):
@@ -20,18 +21,24 @@ class CollaborativeMode(DebateMode):
 
 Be thoughtful, open-minded, and add complementary insights."""
 
-    def get_initial_prompt(self, topic: str, cli_name: str) -> str:
+    def get_initial_prompt(self, topic: str, cli_name: str, pr_context: Optional["PRContext"] = None) -> str:
         """Generate initial prompt for collaborative exploration."""
         instructions = self.get_mode_instructions(cli_name)
 
-        return f"""{instructions}
+        prompt = f"""{instructions}
 
 **Topic for Exploration:** {topic}
+"""
 
-Begin the collaborative exploration. Share your initial thoughts, perspectives, and questions about this topic.
-Set a constructive tone for the discussion."""
+        # Add PR context if available
+        if pr_context:
+            prompt += f"\n{pr_context.format_for_debate()}\n"
 
-    def get_response_prompt(self, topic: str, cli_name: str, conversation_history: List["Turn"]) -> str:
+        prompt += "\nBegin the collaborative exploration. Share your initial thoughts, perspectives, and questions about this topic.\nSet a constructive tone for the discussion."
+
+        return prompt
+
+    def get_response_prompt(self, topic: str, cli_name: str, conversation_history: List["Turn"], pr_context: Optional["PRContext"] = None) -> str:
         """Generate response prompt with collaborative framing."""
         instructions = self.get_mode_instructions(cli_name)
         history = self.format_history(conversation_history)
@@ -40,10 +47,16 @@ Set a constructive tone for the discussion."""
         last_turn = conversation_history[-1] if conversation_history else None
         partner_name = "your partner" if not last_turn else last_turn.cli_name.title()
 
-        return f"""{instructions}
+        prompt = f"""{instructions}
 
 **Topic for Exploration:** {topic}
+"""
 
+        # Add PR context if available (only on first response)
+        if pr_context and len(conversation_history) <= 2:
+            prompt += f"\n{pr_context.format_for_debate()}\n"
+
+        prompt += f"""
 **Conversation So Far:**
 {history}
 
@@ -56,3 +69,5 @@ Build on {partner_name}'s contribution. You might:
 - Introduce complementary viewpoints
 
 Keep the collaborative spirit and add meaningful value to the exploration."""
+
+        return prompt

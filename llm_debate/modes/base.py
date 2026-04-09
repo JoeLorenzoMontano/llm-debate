@@ -1,23 +1,25 @@
 """Base class for debate modes."""
 
 from abc import ABC, abstractmethod
-from typing import List, TYPE_CHECKING
+from typing import List, Optional, TYPE_CHECKING
 
 if TYPE_CHECKING:
     from ..orchestrator import Turn
+    from ..pr_context import PRContext
 
 
 class DebateMode(ABC):
     """Abstract base class for debate interaction modes."""
 
     @abstractmethod
-    def get_initial_prompt(self, topic: str, cli_name: str) -> str:
+    def get_initial_prompt(self, topic: str, cli_name: str, pr_context: Optional["PRContext"] = None) -> str:
         """
         Generate the initial prompt for the first CLI.
 
         Args:
             topic: The debate topic
             cli_name: Name of the CLI (claude or codex)
+            pr_context: Optional PR context to include
 
         Returns:
             Initial prompt string
@@ -25,7 +27,7 @@ class DebateMode(ABC):
         pass
 
     @abstractmethod
-    def get_response_prompt(self, topic: str, cli_name: str, conversation_history: List["Turn"]) -> str:
+    def get_response_prompt(self, topic: str, cli_name: str, conversation_history: List["Turn"], pr_context: Optional["PRContext"] = None) -> str:
         """
         Generate prompt for responding to previous turns.
 
@@ -33,6 +35,7 @@ class DebateMode(ABC):
             topic: The debate topic
             cli_name: Name of the CLI
             conversation_history: List of previous turns
+            pr_context: Optional PR context to include
 
         Returns:
             Response prompt string

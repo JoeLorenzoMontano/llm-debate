@@ -149,6 +149,32 @@ Examples:
         help='Path to log file (default: debate.log)'
     )
 
+    # PR context
+    parser.add_argument(
+        '--pr',
+        type=str,
+        help='Pull request number or URL to review and debate'
+    )
+
+    parser.add_argument(
+        '--pr-repo',
+        type=str,
+        help='Repository in format owner/repo (optional if in repo directory)'
+    )
+
+    parser.add_argument(
+        '--pr-checkout',
+        action='store_true',
+        help='Checkout PR branch before starting debate'
+    )
+
+    parser.add_argument(
+        '--gh-bin',
+        type=str,
+        default='gh',
+        help='Path to GitHub CLI binary (default: gh)'
+    )
+
     return parser
 
 
@@ -230,7 +256,11 @@ def main():
             claude_bin=args.claude_bin,
             codex_bin=args.codex_bin,
             log_level=args.log_level,
-            log_file=args.log_file
+            log_file=args.log_file,
+            pr_number=args.pr,
+            pr_repo=args.pr_repo,
+            pr_checkout=args.pr_checkout,
+            gh_bin=args.gh_bin
         )
 
         logger.info(f"Configuration created: mode={config.mode}, topic={config.topic}")

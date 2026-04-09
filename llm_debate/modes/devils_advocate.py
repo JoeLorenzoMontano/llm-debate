@@ -1,10 +1,11 @@
 """Devil's Advocate mode."""
 
-from typing import List, TYPE_CHECKING
+from typing import List, Optional, TYPE_CHECKING
 from .base import DebateMode
 
 if TYPE_CHECKING:
     from ..orchestrator import Turn
+    from ..pr_context import PRContext
 
 
 class DevilsAdvocateMode(DebateMode):
@@ -31,36 +32,51 @@ Your role is to:
 
 Be constructive in your criticism - the goal is to strengthen ideas, not just tear them down."""
 
-    def get_initial_prompt(self, topic: str, cli_name: str) -> str:
+    def get_initial_prompt(self, topic: str, cli_name: str, pr_context: Optional["PRContext"] = None) -> str:
         """Generate initial prompt based on role."""
         instructions = self.get_mode_instructions(cli_name)
 
         if cli_name.lower() == "claude":
             # Claude proposes first
-            return f"""{instructions}
+            prompt = f"""{instructions}
 
 **Topic:** {topic}
+"""
+            # Add PR context if available
+            if pr_context:
+                prompt += f"\n{pr_context.format_for_debate()}\n"
 
-Present your initial proposal or approach to this topic. Be specific and explain your reasoning."""
+            prompt += "\nPresent your initial proposal or approach to this topic. Be specific and explain your reasoning."
+            return prompt
         else:
             # Codex should not go first in this mode
-            return f"""{instructions}
+            prompt = f"""{instructions}
 
 **Topic:** {topic}
+"""
+            # Add PR context if available
+            if pr_context:
+                prompt += f"\n{pr_context.format_for_debate()}\n"
 
-Wait for the proposer to make their initial proposal, then provide your critique."""
+            prompt += "\nWait for the proposer to make their initial proposal, then provide your critique."
+            return prompt
 
-    def get_response_prompt(self, topic: str, cli_name: str, conversation_history: List["Turn"]) -> str:
+    def get_response_prompt(self, topic: str, cli_name: str, conversation_history: List["Turn"], pr_context: Optional["PRContext"] = None) -> str:
         """Generate response prompt based on role and history."""
         instructions = self.get_mode_instructions(cli_name)
         history = self.format_history(conversation_history)
 
         if cli_name.lower() == "claude":
             # Claude responds to critiques by refining proposals
-            return f"""{instructions}
+            prompt = f"""{instructions}
 
 **Topic:** {topic}
+"""
+            # Add PR context if available (only on first response)
+            if pr_context and len(conversation_history) <= 2:
+                prompt += f"\n{pr_context.format_for_debate()}\n"
 
+            prompt += f"""
 **Conversation So Far:**
 {history}
 
@@ -72,12 +88,18 @@ Respond to the criticism. You can:
 - Propose alternative approaches
 
 Show how the critique has helped improve your thinking."""
+            return prompt
         else:
             # Codex critiques the latest proposal
-            return f"""{instructions}
+            prompt = f"""{instructions}
 
 **Topic:** {topic}
+"""
+            # Add PR context if available (only on first response)
+            if pr_context and len(conversation_history) <= 2:
+                prompt += f"\n{pr_context.format_for_debate()}\n"
 
+            prompt += f"""
 **Conversation So Far:**
 {history}
 
@@ -89,3 +111,4 @@ Critically evaluate the latest proposal. Consider:
 - How could this be improved?
 
 Provide constructive criticism that helps strengthen the proposal."""
+            return prompt

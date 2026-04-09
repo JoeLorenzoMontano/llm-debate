@@ -165,6 +165,9 @@ class DebateClient {
         }
 
         // Get form values
+        const prNumber = document.getElementById('pr_number').value.trim();
+        const prRepo = document.getElementById('pr_repo').value.trim();
+
         const config = {
             topic: document.getElementById('topic').value.trim(),
             mode: document.getElementById('mode').value,
@@ -172,7 +175,11 @@ class DebateClient {
             timeout: parseInt(document.getElementById('timeout').value),
             enable_convergence: document.getElementById('enable_convergence').checked,
             enable_actions: document.getElementById('enable_actions').checked,
-            convergence_threshold: 0.85
+            convergence_threshold: 0.85,
+            // PR context (optional)
+            pr_number: prNumber || null,
+            pr_repo: prRepo || null,
+            pr_checkout: document.getElementById('pr_checkout').checked
         };
 
         if (!config.topic) {

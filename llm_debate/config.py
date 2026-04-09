@@ -38,6 +38,12 @@ class DebateConfig:
     auto_commit: bool = True  # Commit changes after each turn
     allow_rollback: bool = True  # Allow rolling back failed debates
 
+    # PR context settings
+    pr_number: Optional[str] = None  # PR number or URL to review
+    pr_repo: Optional[str] = None  # Repository in format 'owner/repo'
+    pr_checkout: bool = False  # Checkout PR branch before debate
+    gh_bin: str = "gh"  # Path to GitHub CLI
+
     def __post_init__(self):
         """Validate configuration after initialization."""
         # Validate mode

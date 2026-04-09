@@ -9,6 +9,7 @@ from .cli_executor import CLIExecutor
 from .modes.adversarial import AdversarialMode
 from .modes.collaborative import CollaborativeMode
 from .modes.devils_advocate import DevilsAdvocateMode
+from .pr_context import PRContextFetcher, PRContext
 
 
 logger = logging.getLogger(__name__)
@@ -52,6 +53,7 @@ class DebateOrchestrator:
         """
         self.config = config
         self.conversation_history: List[Turn] = []
+        self.pr_context: Optional[PRContext] = None
 
         # Initialize CLI executors
         self.claude_executor = CLIExecutor("claude", config.claude_bin, config.timeout_per_round)
@@ -87,6 +89,34 @@ class DebateOrchestrator:
         """
         logger.info(f"Starting debate on topic: {self.config.topic}")
 
+        # Fetch PR context if requested
+        if self.config.pr_number:
+            try:
+                logger.info(f"Fetching PR context for: {self.config.pr_number}")
+                fetcher = PRContextFetcher(self.config.gh_bin)
+                self.pr_context = fetcher.fetch_pr_context(
+                    self.config.pr_number,
+                    self.config.pr_repo
+                )
+                logger.info(f"PR context fetched: PR #{self.pr_context.pr_number} - {self.pr_context.title}")
+
+                # Checkout PR branch if requested
+                if self.config.pr_checkout:
+                    logger.info("Checking out PR branch...")
+                    success = fetcher.checkout_pr_branch(
+                        self.pr_context.pr_number,
+                        self.config.pr_repo
+                    )
+                    if success:
+                        logger.info("PR branch checked out successfully")
+                    else:
+                        logger.warning("Failed to checkout PR branch, continuing anyway")
+
+            except Exception as e:
+                logger.error(f"Failed to fetch PR context: {e}")
+                # Continue debate without PR context
+                logger.warning("Continuing debate without PR context")
+
         # Notify handlers of debate start
         for handler in self.output_handlers:
             handler.on_debate_start(self.config)
@@ -110,12 +140,13 @@ class DebateOrchestrator:
 
             # Generate prompt for this turn
             if round_num == 1:
-                prompt = self.mode.get_initial_prompt(self.config.topic, cli_name)
+                prompt = self.mode.get_initial_prompt(self.config.topic, cli_name, self.pr_context)
             else:
                 prompt = self.mode.get_response_prompt(
                     self.config.topic,
                     cli_name,
-                    self.conversation_history
+                    self.conversation_history,
+                    self.pr_context
                 )
 
             # Create turn record

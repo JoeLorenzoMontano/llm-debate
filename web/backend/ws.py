@@ -149,7 +149,12 @@ class WebSocketDebateHandler:
                 convergence_threshold=config_data.get("convergence_threshold", 0.85),
                 enable_convergence=config_data.get("enable_convergence", True),
                 enable_actions=config_data.get("enable_actions", False),
-                output_handlers=["stream"]  # Not used here, we have custom handler
+                output_handlers=["stream"],  # Not used here, we have custom handler
+                # PR context settings
+                pr_number=config_data.get("pr_number"),
+                pr_repo=config_data.get("pr_repo"),
+                pr_checkout=config_data.get("pr_checkout", False),
+                gh_bin=config_data.get("gh_bin", "gh")
             )
 
             # Create orchestrator
