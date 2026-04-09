@@ -21,9 +21,10 @@ logger = logging.getLogger(__name__)
 class WebSocketOutputHandler:
     """Output handler that streams to WebSocket."""
 
-    def __init__(self, websocket: WebSocket, client_id: str):
+    def __init__(self, websocket: WebSocket, client_id: str, loop: asyncio.AbstractEventLoop):
         self.websocket = websocket
         self.client_id = client_id
+        self.loop = loop  # Store event loop for cross-thread async calls
 
     async def send_event(self, event_type: str, data: dict):
         """Send an event to the WebSocket client."""
@@ -36,42 +37,54 @@ class WebSocketOutputHandler:
             logger.error(f"Failed to send WebSocket message to {self.client_id}: {e}")
 
     def on_debate_start(self, config):
-        """Called when debate starts."""
-        asyncio.create_task(self.send_event("debate_start", {
-            "topic": config.topic,
-            "mode": config.mode,
-            "max_rounds": config.max_rounds,
-            "convergence_enabled": config.enable_convergence
-        }))
+        """Called when debate starts (from thread pool)."""
+        asyncio.run_coroutine_threadsafe(
+            self.send_event("debate_start", {
+                "topic": config.topic,
+                "mode": config.mode,
+                "max_rounds": config.max_rounds,
+                "convergence_enabled": config.enable_convergence
+            }),
+            self.loop
+        )
 
     def on_turn_start(self, turn: Turn):
-        """Called when a turn starts."""
-        asyncio.create_task(self.send_event("turn_start", {
-            "round": turn.round_number,
-            "cli": turn.cli_name,
-            "timestamp": turn.timestamp.isoformat()
-        }))
+        """Called when a turn starts (from thread pool)."""
+        asyncio.run_coroutine_threadsafe(
+            self.send_event("turn_start", {
+                "round": turn.round_number,
+                "cli": turn.cli_name,
+                "timestamp": turn.timestamp.isoformat()
+            }),
+            self.loop
+        )
 
     def on_turn_complete(self, turn: Turn):
-        """Called when a turn completes."""
-        asyncio.create_task(self.send_event("turn_complete", {
-            "round": turn.round_number,
-            "cli": turn.cli_name,
-            "response": turn.response,
-            "execution_time": turn.execution_time,
-            "success": turn.success,
-            "timestamp": turn.timestamp.isoformat(),
-            "actions": getattr(turn, 'actions', [])  # For action mode
-        }))
+        """Called when a turn completes (from thread pool)."""
+        asyncio.run_coroutine_threadsafe(
+            self.send_event("turn_complete", {
+                "round": turn.round_number,
+                "cli": turn.cli_name,
+                "response": turn.response,
+                "execution_time": turn.execution_time,
+                "success": turn.success,
+                "timestamp": turn.timestamp.isoformat(),
+                "actions": getattr(turn, 'actions', [])  # For action mode
+            }),
+            self.loop
+        )
 
     def on_debate_complete(self, result: DebateResult):
-        """Called when debate completes."""
-        asyncio.create_task(self.send_event("debate_complete", {
-            "total_rounds": result.total_rounds,
-            "converged": result.converged,
-            "convergence_reason": result.convergence_reason,
-            "end_reason": result.end_reason
-        }))
+        """Called when debate completes (from thread pool)."""
+        asyncio.run_coroutine_threadsafe(
+            self.send_event("debate_complete", {
+                "total_rounds": result.total_rounds,
+                "converged": result.converged,
+                "convergence_reason": result.convergence_reason,
+                "end_reason": result.end_reason
+            }),
+            self.loop
+        )
 
 
 class WebSocketDebateHandler:
@@ -168,8 +181,9 @@ class WebSocketDebateHandler:
             # Create orchestrator
             orchestrator = DebateOrchestrator(config)
 
-            # Add WebSocket output handler
-            ws_handler = WebSocketOutputHandler(websocket, client_id)
+            # Add WebSocket output handler with event loop for cross-thread async calls
+            loop = asyncio.get_running_loop()
+            ws_handler = WebSocketOutputHandler(websocket, client_id, loop)
             orchestrator.add_output_handler(ws_handler)
 
             # Run debate in background task
