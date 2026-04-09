@@ -10,6 +10,7 @@ services:
       - ./web:/app/web
       - ~/.claude:/root/.claude  # Mount Claude config
       - ~/.config/codex:/root/.config/codex  # Mount Codex config
+      - ~/.config/gh:/root/.config/gh  # Mount GitHub CLI config (RW for migrations)
       # Mount Claude CLI binary (Codex is installed in container)
       - ~/.local/bin/claude:/usr/local/bin/claude:ro
     environment:

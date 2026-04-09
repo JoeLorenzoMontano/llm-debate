@@ -93,8 +93,9 @@ class CLIExecutor:
             # Claude Code: claude -p "prompt"
             return [self.cli_path, "-p", prompt]
         elif self.cli_name.lower() == "codex":
-            # Codex: codex exec "prompt"
-            return [self.cli_path, "exec", prompt]
+            # Codex: codex exec "prompt" --skip-git-repo-check
+            # Skip git repo check for Docker/non-git environments
+            return [self.cli_path, "exec", prompt, "--skip-git-repo-check"]
         else:
             raise ValueError(f"Unknown CLI name: {self.cli_name}")
 

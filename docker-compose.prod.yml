@@ -6,9 +6,10 @@ services:
     ports:
       - "0.0.0.0:7000:8000"  # External port 7000, internal 8000
     volumes:
-      # Mount CLI configurations (read-only for security)
+      # Mount CLI configurations
       - ~/.claude:/root/.claude:ro
       - ~/.config/codex:/root/.config/codex:ro
+      - ~/.config/gh:/root/.config/gh  # Mount GitHub CLI config (RW for migrations)
       # Mount Claude CLI binary (Codex is installed in container)
       - ~/.local/bin/claude:/usr/local/bin/claude:ro
     environment:
